@@ -137,6 +137,12 @@
 .tabla-productos td {
   padding: 12px;
   border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+}
+
+.tabla-productos td:last-child {
+  white-space: nowrap;
+  min-width: 180px;
 }
 
 .tabla-productos tr:hover {
@@ -152,13 +158,15 @@
 
 .btn-editar,
 .btn-eliminar {
-  padding: 6px 12px;
-  margin-right: 5px;
+  padding: 8px 16px;
+  margin-right: 8px;
+  margin-bottom: 4px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.3s;
+  display: inline-block;
 }
 
 .btn-editar {
