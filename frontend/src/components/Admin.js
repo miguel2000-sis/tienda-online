@@ -39,6 +39,7 @@ function Admin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const token = localStorage.getItem('token');
       const productoData = {
         ...formData,
         precio: parseFloat(formData.precio),
@@ -50,12 +51,22 @@ function Admin() {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify(productoData)
         });
         alert('Producto actualizado exitosamente');
       } else {
-        await crearProducto(productoData);
+        const response = await fetch('https://tienda-online-backed.onrender.com/api/productos', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify(productoData)
+        });
+
+        if (!response.ok) throw new Error('Error al crear producto');
         alert('Producto agregado exitosamente');
       }
 
@@ -92,8 +103,12 @@ function Admin() {
   const handleEliminar = async (id) => {
     if (window.confirm('¿Estás seguro de eliminar este producto?')) {
       try {
+        const token = localStorage.getItem('token');
         await fetch(`https://tienda-online-backed.onrender.com/api/productos/${id}`, {
-          method: 'DELETE'
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
         });
         alert('Producto eliminado exitosamente');
         cargarProductos();

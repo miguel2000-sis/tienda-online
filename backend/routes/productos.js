@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Producto = require('../models/Producto');
+const { auth, isAdmin } = require('../middleware/auth');
 
 // Obtener todos los productos
 router.get('/', async (req, res) => {
@@ -25,8 +26,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Crear un nuevo producto
-router.post('/', async (req, res) => {
+// Crear un nuevo producto (requiere autenticación y rol admin)
+router.post('/', auth, isAdmin, async (req, res) => {
   try {
     const nuevoProducto = new Producto(req.body);
     const productoGuardado = await nuevoProducto.save();
@@ -36,8 +37,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Actualizar un producto
-router.put('/:id', async (req, res) => {
+// Actualizar un producto (requiere autenticación y rol admin)
+router.put('/:id', auth, isAdmin, async (req, res) => {
   try {
     const productoActualizado = await Producto.findByIdAndUpdate(
       req.params.id,
@@ -53,8 +54,8 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// Eliminar un producto
-router.delete('/:id', async (req, res) => {
+// Eliminar un producto (requiere autenticación y rol admin)
+router.delete('/:id', auth, isAdmin, async (req, res) => {
   try {
     const productoEliminado = await Producto.findByIdAndDelete(req.params.id);
     if (!productoEliminado) {

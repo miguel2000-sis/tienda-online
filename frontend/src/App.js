@@ -5,6 +5,8 @@ import Catalogo from './components/Catalogo';
 import DetalleProducto from './components/DetalleProducto';
 import Carrito from './components/Carrito';
 import Admin from './components/Admin';
+import Login from './components/Login';
+import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
 function App() {
@@ -69,8 +71,16 @@ function App() {
             }
           />
           <Route
+            path="/login"
+            element={<Login />}
+          />
+          <Route
             path="/admin"
-            element={<Admin />}
+            element={
+              <ProtectedRoute>
+                <Admin />
+              </ProtectedRoute>
+            }
           />
         </Routes>
       </div>
