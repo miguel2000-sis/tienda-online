@@ -80,12 +80,6 @@ function Login() {
             {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
           </button>
         </form>
-
-        <div className="login-info">
-          <p><strong>Credenciales por defecto:</strong></p>
-          <p>Usuario: <code>admin</code></p>
-          <p>Contraseña: <code>admin123</code></p>
-        </div>
       </div>
     </div>
   );
