@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mongod:*)",
+      "Bash(npm install:*)",
+      "Bash(node seed.js:*)",
+      "Bash(npm start)",
+      "Bash(git --version:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
