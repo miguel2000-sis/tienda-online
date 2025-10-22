@@ -124,6 +124,7 @@
   border-collapse: collapse;
   background-color: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  table-layout: auto;
 }
 
 .tabla-productos th {
@@ -134,6 +135,11 @@
   font-weight: bold;
 }
 
+.tabla-productos th:last-child {
+  width: 200px;
+  min-width: 200px;
+}
+
 .tabla-productos td {
   padding: 12px;
   border-bottom: 1px solid #ddd;
@@ -142,7 +148,8 @@
 
 .tabla-productos td:last-child {
   white-space: nowrap;
-  min-width: 180px;
+  min-width: 200px;
+  text-align: left;
 }
 
 .tabla-productos tr:hover {
@@ -158,15 +165,17 @@
 
 .btn-editar,
 .btn-eliminar {
-  padding: 8px 16px;
-  margin: 0 8px 0 0;
+  padding: 6px 12px;
+  margin: 0 6px 0 0;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   transition: background-color 0.3s;
   display: inline-block;
   vertical-align: middle;
+  min-width: 70px;
+  text-align: center;
 }
 
 .btn-editar {
