@@ -11,6 +11,7 @@ function Header({ cantidadCarrito }) {
         </Link>
         <nav>
           <Link to="/" className="nav-link">Productos</Link>
+          <Link to="/admin" className="nav-link">Admin</Link>
           <Link to="/carrito" className="nav-link carrito-link">
             Carrito
             {cantidadCarrito > 0 && (

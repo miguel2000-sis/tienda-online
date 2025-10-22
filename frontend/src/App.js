@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Catalogo from './components/Catalogo';
 import DetalleProducto from './components/DetalleProducto';
 import Carrito from './components/Carrito';
+import Admin from './components/Admin';
 import './App.css';
 
 function App() {
@@ -66,6 +67,10 @@ function App() {
                 vaciarCarrito={vaciarCarrito}
               />
             }
+          />
+          <Route
+            path="/admin"
+            element={<Admin />}
           />
         </Routes>
       </div>
