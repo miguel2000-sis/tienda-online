@@ -6,6 +6,8 @@ function Admin() {
   const [productos, setProductos] = useState([]);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [productoEditando, setProductoEditando] = useState(null);
+  const [imagenArchivo, setImagenArchivo] = useState(null);
+  const [subiendoImagen, setSubiendoImagen] = useState(false);
   const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
@@ -34,6 +36,62 @@ function Admin() {
       ...formData,
       [name]: value
     });
+  };
+
+  const handleImagenChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImagenArchivo(file);
+      // Crear preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({
+          ...formData,
+          imagen: reader.result
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubirImagen = async () => {
+    if (!imagenArchivo) {
+      alert('Por favor selecciona una imagen primero');
+      return;
+    }
+
+    setSubiendoImagen(true);
+    const token = localStorage.getItem('token');
+    const formDataImagen = new FormData();
+    formDataImagen.append('image', imagenArchivo);
+
+    try {
+      const response = await fetch('https://tienda-online-backed.onrender.com/api/upload', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formDataImagen
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setFormData({
+          ...formData,
+          imagen: data.url
+        });
+        setImagenArchivo(null);
+        alert('Imagen subida exitosamente');
+      } else {
+        throw new Error(data.mensaje || 'Error al subir imagen');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error al subir la imagen: ' + error.message);
+    } finally {
+      setSubiendoImagen(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -128,6 +186,7 @@ function Admin() {
       categoria: '',
       stock: ''
     });
+    setImagenArchivo(null);
     setMostrarFormulario(false);
     setProductoEditando(null);
   };
@@ -184,15 +243,54 @@ function Admin() {
             </div>
 
             <div className="form-group">
-              <label>URL de Imagen:</label>
-              <input
-                type="url"
-                name="imagen"
-                value={formData.imagen}
-                onChange={handleInputChange}
-                placeholder="https://..."
-                required
-              />
+              <label>Imagen del Producto:</label>
+
+              <div className="imagen-upload-section">
+                <div className="upload-options">
+                  <div className="upload-option">
+                    <label htmlFor="file-upload" className="file-upload-label">
+                      📁 Seleccionar archivo
+                    </label>
+                    <input
+                      id="file-upload"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImagenChange}
+                      style={{ display: 'none' }}
+                    />
+                    {imagenArchivo && (
+                      <button
+                        type="button"
+                        onClick={handleSubirImagen}
+                        disabled={subiendoImagen}
+                        className="btn-subir-imagen"
+                      >
+                        {subiendoImagen ? 'Subiendo...' : 'Subir Imagen'}
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="separator">O</div>
+
+                  <div className="upload-option">
+                    <input
+                      type="url"
+                      name="imagen"
+                      value={formData.imagen}
+                      onChange={handleInputChange}
+                      placeholder="Pegar URL de imagen..."
+                      required
+                    />
+                  </div>
+                </div>
+
+                {formData.imagen && (
+                  <div className="imagen-preview">
+                    <p>Vista previa:</p>
+                    <img src={formData.imagen} alt="Preview" />
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="form-group">

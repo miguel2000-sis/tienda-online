@@ -17,9 +17,11 @@ mongoose.connect(process.env.MONGODB_URI)
 // Rutas
 const productosRoutes = require('./routes/productos');
 const authRoutes = require('./routes/auth');
+const uploadRoutes = require('./routes/upload');
 
 app.use('/api/productos', productosRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Ruta de prueba
 app.get('/', (req, res) => {
